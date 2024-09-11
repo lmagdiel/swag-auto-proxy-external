@@ -6,7 +6,7 @@
 #   proto: "http"
 #   address: "10.10.10.10"
 #   port: "8080"
-#   auth: "authelia"
+#   auth: true
 #   custom_directive: "include /config/nginx/geoblock.conf;"
 #   auth_bypass: "/path1,/path2"
 #- name: "service_name"
@@ -67,7 +67,7 @@ yq e '.[]' "$EXTERNAL_SERVICES_CONF_FILE" | while read -r config; do
         fi
     fi
 
-    AUTH=$(echo "$config" | yq e '.auth // empty' -)
+    AUTH=$(echo "$config" | yq e '.auth // false' -)
     CUSTOM_DIRECTIVE=$(echo "$config" | yq e '.custom_directive // empty' -)
     AUTH_BYPASS=$(echo "$config" | yq e '.auth_bypass // empty' -)
 
@@ -126,7 +126,7 @@ if /usr/sbin/nginx -c /config/nginx/nginx.conf -t; then
     echo "**** Changes to nginx config are valid, reloading nginx ****"
     /usr/sbin/nginx -c /config/nginx/nginx.conf -s reload
 else
-    echo "**** Changes to nginx config are not valid, skipping nginx reload. Please double check ${EXTERNAL_SERVICES_CONF_FILE} for errors. ****"
+echo "**** Changes to nginx config are not valid, skipping nginx reload. Please double check ${EXTERNAL_SERVICES_CONF_FILE} for errors. ****"
 fi
 
-echo "**** auto-proxy-extended configuration script completed ****"
+echo "**** Auto-proxy-external configuration script completed ****"
