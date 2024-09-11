@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bash
+
+rm -rf /config/nginx/proxy-confs/auto-proxy*.conf
+rm -rf /auto-proxy-external
+mkdir /auto-proxy-external
+
+if ! grep -q "/app/auto-proxy-external.sh" /etc/crontabs/root; then
+    echo "*       *       *       *       *       /app/auto-proxy-external.sh" >> /etc/crontabs/root
+fi
+
+/app/auto-proxy-external.sh
