@@ -1,7 +1,4 @@
 #!/usr/bin/with-contenv bash
-
-
-
 echo "**** Starting auto-proxy-external configuration script ****"
 
 PROXY_CONFS_PATH="/config/nginx/proxy-confs"
